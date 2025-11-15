@@ -156,7 +156,10 @@ static void render_scene(const GameState *game, int width, int height, float yaw
     glTranslatef(-center, -center, -center);
 
     render_grid(game);
-    render_food(&game->food);
+    if (game->food_available)
+    {
+        render_food(&game->food);
+    }
     render_snake(&game->snake);
 }
 

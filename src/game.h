@@ -19,6 +19,8 @@ typedef struct
     int score;
     float move_timer;
     float move_interval;
+    float base_move_interval;
+    bool food_available;
     GameStatus status;
 } GameState;
 
