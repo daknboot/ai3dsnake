@@ -1,5 +1,6 @@
 CC ?= gcc
 CFLAGS ?= -O2 -Wall -Wextra -std=c11
+CFLAGS += -Iinclude
 TARGET := 3dsnake
 SRC := $(wildcard src/*.c)
 OBJ := $(SRC:.c=.o)
