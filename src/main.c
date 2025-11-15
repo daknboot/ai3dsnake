@@ -155,7 +155,9 @@ static void render_scene(const GameState *game, int width, int height, float yaw
     const float center = (float)game->grid_size / 2.0f;
     glTranslatef(-center, -center, -center);
 
+    glDepthMask(GL_FALSE);
     render_grid(game);
+    glDepthMask(GL_TRUE);
     if (game->food_available)
     {
         render_food(&game->food);
@@ -228,12 +230,16 @@ int main(int argc, char **argv)
             {
                 running = false;
             }
-            else if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
+            else if (event.type == SDL_KEYDOWN)
             {
+                bool is_repeat = event.key.repeat != 0;
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_ESCAPE:
-                    running = false;
+                    if (!is_repeat)
+                    {
+                        running = false;
+                    }
                     break;
                 case SDLK_UP:
                     game_change_direction(&game, DIR_POS_Y);
@@ -254,13 +260,19 @@ int main(int argc, char **argv)
                     game_change_direction(&game, DIR_NEG_Z);
                     break;
                 case SDLK_SPACE:
-                    game_toggle_pause(&game);
+                    if (!is_repeat)
+                    {
+                        game_toggle_pause(&game);
+                    }
                     break;
                 case SDLK_r:
-                    game_reset(&game);
+                    if (!is_repeat)
+                    {
+                        game_reset(&game);
+                    }
                     break;
                 case SDLK_RETURN:
-                    if (game.status == GAME_OVER)
+                    if (!is_repeat && game.status == GAME_OVER)
                     {
                         game_reset(&game);
                     }
